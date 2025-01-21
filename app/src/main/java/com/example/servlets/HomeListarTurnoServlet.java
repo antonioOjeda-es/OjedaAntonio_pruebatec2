@@ -52,6 +52,7 @@ public class HomeListarTurnoServlet extends HttpServlet {
         String fechaTurnoFiltrarFinal = req.getParameter("fechaTurnoFiltrarFinal");
         String estadoTurnoFiltrar = req.getParameter("estadoTurnoFiltrar");
 
+
         //creo una lista nula para introducir la lista filtrada
         List<Turno> listaTurnos = null;
 

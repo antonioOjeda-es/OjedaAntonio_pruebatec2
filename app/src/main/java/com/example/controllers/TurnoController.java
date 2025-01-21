@@ -86,14 +86,30 @@ public class TurnoController {
     public List<Turno> listTurnoFiltered(String fechaFiltroInicial, String fechaFiltroFinal, String estadoFiltro) throws TurnoInvalidException {
 
         //1º, paso la fecha a LodalDateTime
-        LocalDateTime fechaFiltrarInicial = FormatearFecha.fechaAnioMesDia(fechaFiltroInicial);
-        LocalDateTime fechaFiltrarFinal = FormatearFecha.fechaAnioMesDia(fechaFiltroFinal);
+        //a) para la primera fecha:
+        LocalDateTime fechaFiltrarInicial;
 
+        //si no está vacío, creo el objeto para usar en el filtrado de la lista de turnos, sinó, mando un mensaje
+        if (!fechaFiltroInicial.isEmpty()) {
+            fechaFiltrarInicial = FormatearFecha.fechaAnioMesDia(fechaFiltroInicial);
+        } else {
+            throw new TurnoInvalidException("La Fecha inicial no puede ser nula");
+        }
+
+        //a) para la primera fecha:
+        /*no filtro la fecha final si es empty para mas adelante darle la última fecha de la base de datos
+        y poder usarla en la búsqueda en la base de datos
+         */
+        LocalDateTime fechaFiltrarFinal = null;
+        if (!fechaFiltroFinal.isEmpty()) {
+            fechaFiltrarFinal = FormatearFecha.fechaAnioMesDia(fechaFiltroFinal);
+        }
+
+
+        //2º, valido que el trámite que llega, sea correcto
 
         //instancio un estado para conseguir una variable de estado fijo de tipo estado
         Turno.Estado estado = null;
-
-        //2º, valido que el trámite que llega, sea correcto
 
         //voy a validar el string de entrada para que se asigne una variable de tipo Estado
         switch (estadoFiltro) {
@@ -113,8 +129,7 @@ public class TurnoController {
         }
 
         //vamos a filtrar los turnos a partir de la fecha indicada y el estado que se ha seleccionado
-        List<Turno> listaFiltrar = null;
-
+        List<Turno> listaFiltrar;
         listaFiltrar = turnoJPA.findAllGenerico().orElse(null);
 
 
@@ -122,51 +137,64 @@ public class TurnoController {
 
         //creo un turno para mandar al servlet
         List<Turno> turnosFiltrados;
-        //creo una lista para enviar al servlet en caso de que solo se filtre por fecha
-        List<Turno> turnosFiltradosFecha;
 
-        //1º convierto la lista en un flujo con estream, si la lista no es nula
+        //4º filtrado de resultados
+
+        //a) convierto la lista en un flujo con estream, si la lista no es nula
         if (listaFiltrar != null) {
-            turnosFiltradosFecha = listaFiltrar.stream()
 
-                    //2º hago el filtrado de la fecha inicial y final
-                    .filter(n -> n.getFecha().isAfter(fechaFiltrarInicial) && n.getFecha().isBefore(fechaFiltrarFinal))
-                    //3º uso sorted que sirve para ordenar una lista en base a un criterio en este caso es la fecha
+            /* a) creo una fecha con la última fecha de la base de datos para que la fechaFiltrarFinal si es empty,
+            retorne los resultados desde la fecha inicial que viene del usuario a la última fecha de la base de datos */
+            if (fechaFiltroFinal.isEmpty()) {
+                fechaFiltrarFinal = listaFiltrar.stream()
+                        //b) consigo la fecha de cada turno
+                        .map(Turno::getFecha)
+                        //c)busco el valor maximo usando el método CompareTo de LocalDateTime
+                        .max(LocalDateTime::compareTo)
+                        //es obligatorio estableer un orElse por si no obtiene ningún resultado
+                        .orElse(LocalDateTime.now());
+            }
+
+            /* creo la variable para usar como criterio de búsqueda, tanto si la insertó el usuario
+            como si está vacía(que fue obtenida al partir de la última facha de la base de datos) */
+
+            //no hace falta formatear la fecha puesto que ya viene formateada de la base de datos
+            LocalDateTime finalFechaFiltrarFinal = fechaFiltrarFinal;
+
+
+            //b) hago un flujo para buscar resultado con las variables obtenidas y formateadas
+            turnosFiltrados = listaFiltrar.stream()
+
+                    //1º hago el filtrado de la fecha inicial y final
+                    .filter(n -> n.getFecha().isAfter(fechaFiltrarInicial) && n.getFecha().isBefore(finalFechaFiltrarFinal))
+
+                    //2º uso sorted que sirve para ordenar una lista en base a un criterio en este caso es la fecha
                     //uso .reverse para que lo ponga en orden de actual a mas antigua
                     .sorted(Comparator.comparing(Turno::getFecha).reversed())
                     //convierto el flujo en una lista
                     .collect(Collectors.toList());
-            turnosFiltrados = turnosFiltradosFecha;
+
+            //c)
+            /*si la variable de estado no es null porque se le ha asignado un valor,
+             entonces vuelvo a filtrar los resultados usando el estado que llega desde el jsp */
+            if (estado != null) {
+                //uso .reverse para que lo ponga en orden de actual a mas antigua
+                //convierto el flujo en una lista
+                //se va a filtrar el estado pero con la fecha ya filtrada anteriormente
+                Turno.Estado finalEstadoFiltro = estado;
+                turnosFiltrados = turnosFiltrados.stream()
+                        .filter(j -> j.getEstado().equals(finalEstadoFiltro))
+                        //uso .reverse para que lo ponga en orden de actual a mas antigua
+                        .sorted(Comparator.comparing(Turno::getFecha).reversed())
+                        //convierto el flujo en una lista
+                        .collect(Collectors.toList());
+            }
+            //retorno los turnos filtrados tanto si se ha filtrado solo la fecha solo o con el estado
+            return turnosFiltrados;
 
         } else {
             //me aseguro que la lista no está vacía, si lo está, mando excepción
-            throw new NullPointerException("Lista de turnos filtrados por fechavacía");
+            throw new NullPointerException("Lista de turnos filtrados por fecha está vacía");
         }
-
-        /*si la variable de estado no es null porque se le ha asignado un valor,
-         entonces vuelvo a filtrar los resultados ya filtrados por fechaconseguir los
-         resultados estado que llega desde el jsp */
-        if (estado != null) {
-            //creo una variable para usarla en el if
-            Turno.Estado finalEstado = estado;
-
-            //uso .reverse para que lo ponga en orden de actual a mas antigua
-            //convierto el flujo en una lista
-            //se va a filtrar el estado pero con la fecha ya filtrada anteriormente
-            turnosFiltrados = turnosFiltradosFecha.stream()
-                    .filter(j -> j.getEstado().equals(finalEstado))
-                    //uso .reverse para que lo ponga en orden de actual a mas antigua
-                    .sorted(Comparator.comparing(Turno::getFecha).reversed())
-                    //convierto el flujo en una lista
-                    .collect(Collectors.toList());
-        }
-
-        if (turnosFiltrados.isEmpty()) {
-            //me aseguro que la lista no está vacía, si lo está, mando excepción
-            throw new NullPointerException("Lista de turnos filtrados por fecha y estado vacía");
-        }
-
-        //lo mando nulo por si hay algún fallo, lo envío al servlet para que saque el error en un página
-        return turnosFiltrados;
     }
 }

@@ -17,7 +17,7 @@ public class FormatearFecha {
         // creo una fecha para agregarla al objeto Turno:
         LocalDateTime turnoFechaFormateado;
 
-        //si la fecha introducida no es válida, lo envío a la página de error personalizada
+        //se dará formato al String para que cree una fecha tipo LocalDateTime
         try {
             //uso el método parse para crear una fecha formateada y agregarla a la variable creada anteriormente
             turnoFechaFormateado = LocalDateTime.parse(fecha, formatter);
@@ -33,6 +33,7 @@ public class FormatearFecha {
         }
 
         return turnoFechaFormateado;
+
     }
 
     /*para que ponga predefinidamente la hora, minutos y segundos a 0
@@ -40,11 +41,19 @@ public class FormatearFecha {
     public static LocalDateTime fechaAnioMesDia(String fecha) {
 
         LocalDateTime fechaFormateada;
-        try {
-            fechaFormateada = LocalDate.parse(fecha).atStartOfDay();
-        } catch (DateTimeParseException e) {
 
-            throw new DateTimeParseException("Formato de fecha incorrecto", fecha, 0);
+        //si la fecha está vacía, se creará una actual para que la fecha final sea el momento actual
+        if (fecha.isEmpty()) {
+            fechaFormateada = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
+
+        } else {
+            try {
+                fechaFormateada = LocalDate.parse(fecha).atStartOfDay();
+            } catch (DateTimeParseException e) {
+
+                throw new DateTimeParseException("Formato de fecha incorrecto", fecha, 0);
+            }
+            return fechaFormateada;
         }
         return fechaFormateada;
     }
