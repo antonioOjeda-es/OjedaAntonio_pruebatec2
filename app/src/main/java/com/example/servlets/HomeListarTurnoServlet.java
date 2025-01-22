@@ -85,7 +85,6 @@ public class HomeListarTurnoServlet extends HttpServlet {
         después lo paso a string para dar formato y convertirlo en una fecha comprensible para que lo lea el usuario
         con otro método de la Misma clase
          */
-
         String mensaje = "Listado con filtro con fecha desde "
                 + FormatearFecha.pasarFechaAString(FormatearFecha.fechaAnioMesDia(fechaTurnoFiltrarInicial).toString()) +
 
@@ -95,7 +94,6 @@ public class HomeListarTurnoServlet extends HttpServlet {
                         + FormatearFecha.pasarFechaAString(FormatearFecha.fechaAnioMesDia(fechaTurnoFiltrarFinal).toString())
                 ) + " y estado " + estadoMensaje
                 + ":";
-
 
         //mando la variable para mostrar en la página jsp
         req.setAttribute("listaTurnos", listaTurnos);
