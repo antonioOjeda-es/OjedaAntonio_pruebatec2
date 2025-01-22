@@ -96,7 +96,7 @@
                                                     <td>
                                                         <!--he formateado los números menores de 10, añada un 0-->
                                                         <%= turno.getFecha().getYear() %>-<%=
-                                                                turno.getFecha().getMonthValue() < 9 ? "0" +
+                                                                turno.getFecha().getMonthValue() < 10 ? "0" +
                                                                 turno.getFecha().getMonthValue() :
                                                                 turno.getFecha().getMonthValue()%>-<%=
                                                                     turno.getFecha().getDayOfMonth() %>.
