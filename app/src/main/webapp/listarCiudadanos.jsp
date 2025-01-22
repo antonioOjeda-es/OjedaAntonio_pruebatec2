@@ -1,12 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <!-- Importo las clases -->
-    <%@ page import="java.util.List, com.example.entities.Turno, com.example.entities.Ciudadano" %>
+    <%@ page
+        import="java.util.List, com.example.entities.Turno, com.example.entities.Turno.Estado, com.example.entities.Turno.Tramite, com.example.entities.Ciudadano"
+        %>
 
         <!DOCTYPE html>
         <html lang="es">
         <%@ include file="partials/head.jsp" %>
 
-            <body>
+            <body class="bg-light">
                 <!-- incluyo el heder de partials -->
                 <%@ include file="partials/header.jsp" %>
 
@@ -33,7 +35,8 @@
                                                     data-bs-placement="top" title="Sin filtro de fecha">
                                                 <div class="form-text text-muted">* No
                                                     seleccionar si no necesita fecha final</div>
-                                                <div class="form-text text-muted">(Se mostrará hasta la fecha el turno mas
+                                                <div class="form-text text-muted">(Se mostrará hasta la fecha el turno
+                                                    mas
                                                     reciente)</div>
                                             </div>
                                             <div class="col-md-4">
@@ -67,7 +70,6 @@
                         <div class="row justify-content-center">
                             <div class="col-md-12">
                                 <table class="table table-striped table-bordered">
-                                    <!-- Rest of your existing table code -->
                                     <thead class="table-dark col-md-12">
                                         <tr class="text-center">
                                             <th colspan="4">Turno</th>
@@ -92,8 +94,11 @@
                                                         <%= turno.getCodigoTurno() %>
                                                     </td>
                                                     <td>
+                                                        <!--he formateado los números menores de 10, añada un 0-->
                                                         <%= turno.getFecha().getYear() %>-<%=
-                                                                turno.getFecha().getMonthValue() %>-<%=
+                                                                turno.getFecha().getMonthValue() < 9 ? "0" +
+                                                                turno.getFecha().getMonthValue() :
+                                                                turno.getFecha().getMonthValue()%>-<%=
                                                                     turno.getFecha().getDayOfMonth() %>.
                                                                     <%= turno.getFecha().getHour() %>:<%=
                                                                             turno.getFecha().getMinute() < 10 ? "0" +
@@ -101,10 +106,18 @@
                                                                             turno.getFecha().getMinute() %>
                                                     </td>
                                                     <td>
-                                                        <%= turno.getTramite() %>
+                                                        <!--he formateado la entrada de trámite para que los que tienen guión bajo, los reemplace por el mismo pero ellos pero con espacios-->
+                                                        <%= turno.getTramite().equals(Turno.Tramite.OTRAS_CONSULTAS)
+                                                            ? "OTRAS CONSULTAS" :
+                                                            turno.getTramite().equals(Turno.Tramite.ENTREGA_DOCUMENTACION)
+                                                            ? "ENTREGA DE CODUMENTACIÓN" :
+                                                            turno.getTramite().equals(Turno.Tramite.PRESENTAR_DECLARACION)
+                                                            ? "PRESENTAR DECLARACION" : turno.getTramite() %>
                                                     </td>
                                                     <td>
-                                                        <%= turno.getEstado() %>
+                                                        <!--he tenido que agregar la clase estado para que me reconociera el prámatro de tipo estado-->
+                                                        <%= turno.getEstado().equals(Turno.Estado.EN_ESPERA)
+                                                            ? "EN ESPERA" : "YA ATENDIDO" %>
                                                     </td>
                                                     <td>
                                                         <%= turno.getCiudadano().getNombre() %>
@@ -124,6 +137,7 @@
                     </div>
                     <!-- incluyo el scripts de bootstrap y local de partials -->
                     <%@ include file="partials/footer.jsp" %>
+
                         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
                             integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
                             crossorigin="anonymous"></script>

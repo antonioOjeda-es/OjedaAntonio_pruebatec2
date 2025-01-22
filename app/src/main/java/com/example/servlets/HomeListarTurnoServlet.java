@@ -78,15 +78,22 @@ public class HomeListarTurnoServlet extends HttpServlet {
                 : estadoTurnoFiltrar.equals("YA_ATENDIDO") ? "ya atendido"
                 : "cualquiera";
 
+        //defino un boolean para determinar el mensaje de la fecha final está vacío
+        boolean sinFechaFinal = fechaTurnoFiltrarFinal.isEmpty();
+
         /*para pasar la variable de fecha, primero la he pasado a formato LocalDateTime con un método de la clase y
         después lo paso a string para dar formato y convertirlo en una fecha comprensible para que lo lea el usuario
         con otro método de la Misma clase
          */
+
         String mensaje = "Listado con filtro con fecha desde "
-                + FormatearFecha.pasarFechaAString(FormatearFecha.fechaAnioMesDia(fechaTurnoFiltrarInicial).toString())
-                + " hasta "
-                + FormatearFecha.pasarFechaAString(FormatearFecha.fechaAnioMesDia(fechaTurnoFiltrarFinal).toString())
-                + " y estado " + estadoMensaje
+                + FormatearFecha.pasarFechaAString(FormatearFecha.fechaAnioMesDia(fechaTurnoFiltrarInicial).toString()) +
+
+                /*uso este ternario y que pase a string la condición de que sinFechaFinal ha recibido fecha o no
+                dependiendo del resultado, el mensaje variará */
+                String.format(sinFechaFinal ? " sin fecha final" : " hasta "
+                        + FormatearFecha.pasarFechaAString(FormatearFecha.fechaAnioMesDia(fechaTurnoFiltrarFinal).toString())
+                ) + " y estado " + estadoMensaje
                 + ":";
 
 

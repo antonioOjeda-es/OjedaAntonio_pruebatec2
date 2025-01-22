@@ -6,7 +6,7 @@
         <html lang="en">
         <%@ include file="partials/head.jsp" %>
 
-            <body>
+            <body class="bg-light">
 
                 <!-- incluyo el heder de partials -->
                 <%@ include file="partials/header.jsp" %>

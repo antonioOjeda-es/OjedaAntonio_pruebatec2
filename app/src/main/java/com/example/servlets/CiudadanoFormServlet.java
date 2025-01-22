@@ -53,7 +53,5 @@ public class CiudadanoFormServlet extends HttpServlet {
         req.setAttribute("mensajeAgregado", mensajeAgregado);
         req.getRequestDispatcher("ciudadanoForm.jsp").forward(req, resp);;
 
-        //resp.sendRedirect( req.getContextPath() + "/agregarCiudadano");
-
     }
 }
