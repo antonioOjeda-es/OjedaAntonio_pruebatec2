@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <!-- Importo las clases -->
     <%@ page
-        import="java.util.List, com.example.entities.Turno, com.example.entities.Turno.Estado, com.example.entities.Turno.Tramite, com.example.entities.Ciudadano"
+        import="java.util.List, com.example.entities.Turno, com.example.entities.Turno.Tramite, com.example.entities.Ciudadano"
         %>
 
         <!DOCTYPE html>
@@ -25,14 +25,16 @@
                                             <input type="hidden" name="action" value="filtrar">
                                             <div class="col-md-4">
                                                 <label for="fechaTurnoFiltrarInicial" class="form-label">Desde</label>
-                                                <input type="date" class="form-control" id="fechaTurnoFiltrarInicial"
-                                                    name="fechaTurnoFiltrarInicial" onchange="actualizarFechaMinima()">
+                                                <input type="datetime-local" class="form-control"
+                                                    id="fechaTurnoFiltrarInicial" name="fechaTurnoFiltrarInicial"
+                                                    onchange="actualizarFechaMinima()">
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="fechaTurnoFiltrarFinal" class="form-label">Hasta</label>
-                                                <input type="date" class="form-control" id="fechaTurnoFiltrarFinal"
-                                                    name="fechaTurnoFiltrarFinal" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="Sin filtro de fecha">
+                                                <input type="datetime-local" class="form-control"
+                                                    id="fechaTurnoFiltrarFinal" name="fechaTurnoFiltrarFinal"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    title="Sin filtro de fecha">
                                                 <div class="form-text text-muted">* No
                                                     seleccionar si no necesita fecha final</div>
                                                 <div class="form-text text-muted">(Se mostrará hasta la fecha el turno
@@ -95,29 +97,27 @@
                                                     </td>
                                                     <td>
                                                         <!--he formateado los números menores de 10, añada un 0-->
-                                                        <%= turno.getFecha().getYear() %>-<%=
-                                                                turno.getFecha().getMonthValue() < 10 ? "0" +
-                                                                turno.getFecha().getMonthValue() :
-                                                                turno.getFecha().getMonthValue()%>-<%=
-                                                                    turno.getFecha().getDayOfMonth() %>.
-                                                                    <%= turno.getFecha().getHour() %>:<%=
+                                                        <%= turno.getFecha().getDayOfMonth() < 10 ? "0" +
+                                                            turno.getFecha().getDayOfMonth() :
+                                                            turno.getFecha().getDayOfMonth() %>
+                                                            /<%= turno.getFecha().getMonth().getValue() < 10 ? "0" +
+                                                                turno.getFecha().getMonth().getValue() :
+                                                                turno.getFecha().getMonth().getValue() %>
+                                                                /<%= turno.getFecha().getYear() %>. <%=
+                                                                        turno.getFecha().getHour() < 10 ? "0" +
+                                                                        turno.getFecha().getHour() :
+                                                                        turno.getFecha().getHour() %>:<%=
                                                                             turno.getFecha().getMinute() < 10 ? "0" +
                                                                             turno.getFecha().getMinute() :
                                                                             turno.getFecha().getMinute() %>
                                                     </td>
                                                     <td>
                                                         <!--he formateado la entrada de trámite para que los que tienen guión bajo, los reemplace por el mismo pero ellos pero con espacios-->
-                                                        <%= turno.getTramite().equals(Turno.Tramite.OTRAS_CONSULTAS)
-                                                            ? "OTRAS CONSULTAS" :
-                                                            turno.getTramite().equals(Turno.Tramite.ENTREGA_DOCUMENTACION)
-                                                            ? "ENTREGA DE CODUMENTACIÓN" :
-                                                            turno.getTramite().equals(Turno.Tramite.PRESENTAR_DECLARACION)
-                                                            ? "PRESENTAR DECLARACION" : turno.getTramite() %>
+                                                        <%= turno.getTramite().toString().replace("_", " " ) %>
                                                     </td>
                                                     <td>
-                                                        <!--he tenido que agregar la clase estado para que me reconociera el prámatro de tipo estado-->
-                                                        <%= turno.getEstado().equals(Turno.Estado.EN_ESPERA)
-                                                            ? "EN ESPERA" : "YA ATENDIDO" %>
+                                                        <!--he formateado la entrada de estado para que los que tienen guión bajo, los reemplace por el mismo pero ellos pero con espacios-->
+                                                        <%= turno.getEstado().toString().replace("_", " " ) %>
                                                     </td>
                                                     <td>
                                                         <%= turno.getCiudadano().getNombre() %>

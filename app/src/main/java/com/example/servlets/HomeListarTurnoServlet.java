@@ -21,10 +21,6 @@ public class HomeListarTurnoServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String fechaTurnoFiltrar = req.getParameter("fechaTurnoFiltrar");
-        String estadoTurnoFiltrar = req.getParameter("estadoTurnoFiltrar");
-
-        System.err.println("Fecha: " + fechaTurnoFiltrar + ", " + "Estado: " + estadoTurnoFiltrar);
 
         List<Turno> listaTurnos = turnoController.listAllTurnos().orElse(null);
 
@@ -34,7 +30,6 @@ public class HomeListarTurnoServlet extends HttpServlet {
             req.setAttribute("mensajeError", new NullPointerException("Lista vacía"));
             req.getRequestDispatcher("errors/paginaErrores.jsp").forward(req, resp);
         }
-
 
         String mensaje = "Listado de turnos y ciudadanos sin filtrar:";
 
@@ -74,9 +69,7 @@ public class HomeListarTurnoServlet extends HttpServlet {
         }
 
         //defino la respuesta que va al jsp en el parámetro de estadoTurnoFiltrar y que agregaré al String mensaje
-        String estadoMensaje = estadoTurnoFiltrar.equals("EN_ESPERA") ? "en espera"
-                : estadoTurnoFiltrar.equals("YA_ATENDIDO") ? "ya atendido"
-                : "cualquiera";
+        String estadoMensaje = estadoTurnoFiltrar.replace("_", " ").toLowerCase();
 
         //defino un boolean para determinar el mensaje de la fecha final está vacío
         boolean sinFechaFinal = fechaTurnoFiltrarFinal.isEmpty();
@@ -86,12 +79,12 @@ public class HomeListarTurnoServlet extends HttpServlet {
         con otro método de la Misma clase
          */
         String mensaje = "Listado con filtro con fecha desde "
-                + FormatearFecha.pasarFechaAString(FormatearFecha.fechaAnioMesDia(fechaTurnoFiltrarInicial).toString()) +
+                + FormatearFecha.pasarFechaAString(fechaTurnoFiltrarInicial) +
 
                 /*uso este ternario y que pase a string la condición de que sinFechaFinal ha recibido fecha o no
                 dependiendo del resultado, el mensaje variará */
                 String.format(sinFechaFinal ? " sin fecha final" : " hasta "
-                        + FormatearFecha.pasarFechaAString(FormatearFecha.fechaAnioMesDia(fechaTurnoFiltrarFinal).toString())
+                        + FormatearFecha.pasarFechaAString(fechaTurnoFiltrarFinal)
                 ) + " y estado " + estadoMensaje
                 + ":";
 

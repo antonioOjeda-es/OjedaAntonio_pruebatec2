@@ -46,7 +46,7 @@ public class Ciudadano {
     }
 
     //por si creo un ciudadano pero sin turnos
-    public Ciudadano(String direccion, String apellido, String nombre) {
+    public Ciudadano(String nombre, String apellido, String direccion) {
         this.direccion = direccion;
         this.apellido = apellido;
         this.nombre = nombre;

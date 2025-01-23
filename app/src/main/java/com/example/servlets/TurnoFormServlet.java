@@ -31,11 +31,10 @@ public class TurnoFormServlet extends HttpServlet {
         List<Ciudadano> listaCiudadanos = ciudadanoController.findAll().orElse(null);
 
         //si la lista está vacía, lanzo una excepción
-        if (listaCiudadanos == null){
+        if (listaCiudadanos == null) {
             req.setAttribute("mensajeError", new TurnoInvalidException("No hay usuarios para crear turnos"));
             req.getRequestDispatcher("errors/paginaErrores.jsp");
         }
-
 
 
         //pongo el mensaje en vacío para que para que al cargar la página
@@ -90,11 +89,13 @@ public class TurnoFormServlet extends HttpServlet {
             //lo mando al jsq de errores
             req.getRequestDispatcher("errors/paginaErrores.jsp");
         }
-        String mensajeAgregado = "Se ha agregado el turno con fecha " + FormatearFecha.pasarFechaAString(fechaTurnoInsertar) + " y concepto " + turnoTramiteCrear;
+        String mensajeAgregado = "Se ha agregado el turno con fecha " + FormatearFecha.pasarFechaAString(fechaTurnoInsertar) + " y concepto "
+                //.replace para quitar los guiones bajos y .toLowerCase para minúscula
+                + turnoTramiteCrear.replace("_", " ").toLowerCase();
 
-        //creo una lista de ciudadanos (aunque podría ser de turnos tambien), para enviarlas al jsp
+        //creo una lista de ciudadanos (aunque podría ser de turnos también), para enviarlas al jsp
         List<Ciudadano> listaCiudadanos = ciudadanoController.findAll().orElse(null);
-        if(listaCiudadanos == null){
+        if (listaCiudadanos == null) {
             throw new NullPointerException("Listado de personas vacío");
         }
 

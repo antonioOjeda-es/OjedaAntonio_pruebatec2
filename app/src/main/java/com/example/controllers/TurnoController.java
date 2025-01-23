@@ -91,7 +91,7 @@ public class TurnoController {
 
         //si no está vacío, creo el objeto para usar en el filtrado de la lista de turnos, sinó, mando un mensaje
         if (!fechaFiltroInicial.isEmpty()) {
-            fechaFiltrarInicial = FormatearFecha.fechaAnioMesDia(fechaFiltroInicial);
+            fechaFiltrarInicial = FormatearFecha.fechaAnioMesDiaHoraMinuto(fechaFiltroInicial);
         } else {
             throw new TurnoInvalidException("La Fecha inicial no puede ser nula");
         }
@@ -102,7 +102,7 @@ public class TurnoController {
          */
         LocalDateTime fechaFiltrarFinal = null;
         if (!fechaFiltroFinal.isEmpty()) {
-            fechaFiltrarFinal = FormatearFecha.fechaAnioMesDia(fechaFiltroFinal);
+            fechaFiltrarFinal = FormatearFecha.fechaAnioMesDiaHoraMinuto(fechaFiltroFinal);
         }
 
 
