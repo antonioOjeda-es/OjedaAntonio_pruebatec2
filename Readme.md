@@ -36,6 +36,7 @@ Sistema desarrollado para una entidad gubernamental que permite la gestión de t
 ### Detalles de Conexión
 - **Nombre de la BD**: ciudadano_turno
 - **Usuario**: root
+- **Contraseña**: ""
 - **Ubicación del SQL**: El archivo SQL se encuentra junto al pom.xml en la raíz del proyecto
 
 ### Estructura del Proyecto
