@@ -45,7 +45,25 @@ proyecto/
 ├── pom.xml
 ├── ciudadanos.sql
 ├── src/
-└── ...
+|   └── main/
+|       ├── resources/
+|       |   └── META-INF/
+|       ├── webapp/
+|       |   ├── errors/
+|       |   ├── partials/
+|       |   ├── public/
+|       |   └── WEB-INF/
+|       └── java/
+|          └── com/
+|             └── example/
+|                  ├── controllers
+|                  ├── entities
+|                  ├── exceptions
+|                  ├── persistence
+|                  ├── servlets
+|                  ├── utilities
+|                  ├── validations
+└── target/...
 ```
 
 ## Características Técnicas Destacadas
