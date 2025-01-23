@@ -26,7 +26,7 @@
                                                 <label for="fechaTurnoFiltrarInicial" class="form-label">Desde</label>
                                                 <input type="datetime-local" class="form-control"
                                                     id="fechaTurnoFiltrarInicial" name="fechaTurnoFiltrarInicial"
-                                                    value="<%= request.getAttribute(" fechaTurnoFiltrarInicial") !=null
+                                                    value="<%= request.getAttribute("fechaTurnoFiltrarInicial") !=null
                                                     ? request.getAttribute("fechaTurnoFiltrarInicial") : "" %>"
                                                 onchange="actualizarFechaMinima()">
                                             </div>
@@ -34,7 +34,7 @@
                                                 <label for="fechaTurnoFiltrarFinal" class="form-label">Hasta</label>
                                                 <input type="datetime-local" class="form-control"
                                                     id="fechaTurnoFiltrarFinal" name="fechaTurnoFiltrarFinal"
-                                                    value="<%= request.getAttribute(" fechaTurnoFiltrarFinal") !=null ?
+                                                    value="<%= request.getAttribute("fechaTurnoFiltrarFinal") !=null ?
                                                     request.getAttribute("fechaTurnoFiltrarFinal") : "" %>"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 title="Sin filtro de fecha">
@@ -60,8 +60,8 @@
                                             </div>
                                             <div class="col-12 text-end mt-3">
                                                 <button type="submit" class="btn btn-primary">Filtrar</button>
-                                                <a href="ciudadanos?action=listar" class="btn btn-secondary">Limpiar
-                                                    filtros</a>
+                                                <a href="<%= request.getContextPath() %>/ciudadanos?action=listar"
+                                                    class="btn btn-secondary">Limpiar filtros</a>
                                             </div>
                                         </form>
                                     </div>
