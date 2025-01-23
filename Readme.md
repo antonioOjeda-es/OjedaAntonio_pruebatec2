@@ -62,7 +62,7 @@ proyecto/
 |                  ├── persistence
 |                  ├── servlets
 |                  ├── utilities
-|                  ├── validations
+|                  └── validations
 └── target/...
 ```
 
