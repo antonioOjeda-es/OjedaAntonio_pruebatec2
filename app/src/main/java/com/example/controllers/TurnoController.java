@@ -97,7 +97,7 @@ public class TurnoController {
             throw new TurnoInvalidException("La Fecha inicial no puede ser nula");
         }
 
-        //a) para la primera fecha:
+        //a) para la segunda fecha:
         /*no filtro la fecha final si es empty para mas adelante darle la última fecha de la base de datos
         y poder usarla en la búsqueda en la base de datos
          */
@@ -169,7 +169,7 @@ public class TurnoController {
                     //1º hago el filtrado de la fecha inicial y final
                     .filter(n -> n.getFecha().isAfter(fechaFiltrarInicial) && n.getFecha().isBefore(finalFechaFiltrarFinal))
 
-                    //2º uso sorted que sirve para ordenar una lista en base a un criterio en este caso es la fecha
+                    //2º uso sorted que sirve para ordenar una lista base a un criterio en este caso es la fecha
                     //uso .reverse para que lo ponga en orden de actual a mas antigua
                     .sorted(Comparator.comparing(Turno::getFecha).reversed())
                     //convierto el flujo en una lista
@@ -179,8 +179,6 @@ public class TurnoController {
             /*si la variable de estado no es null porque se le ha asignado un valor,
              entonces vuelvo a filtrar los resultados usando el estado que llega desde el jsp */
             if (estado != null) {
-                //uso .reverse para que lo ponga en orden de actual a mas antigua
-                //convierto el flujo en una lista
                 //se va a filtrar el estado pero con la fecha ya filtrada anteriormente
                 Turno.Estado finalEstadoFiltro = estado;
                 turnosFiltrados = turnosFiltrados.stream()
