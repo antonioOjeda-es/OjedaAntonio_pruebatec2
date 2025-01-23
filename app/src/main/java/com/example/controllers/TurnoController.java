@@ -28,7 +28,7 @@ public class TurnoController {
 
         //1º voy a validar la fecha antes de introducirla en la base de datos:
         //He creado un método para dar formato a la fecha y arrojar error en caso de fallo
-        LocalDateTime turnoFechaFormateado = FormatearFecha.fechaAnioMesDiaHoraMinuto(fechaTurnoInsertar);
+        LocalDateTime turnoFechaFormateado = FormatearFecha.pasarStringAFecha(fechaTurnoInsertar);
 
         //2º hago una validación del tramite
         //hago switch para valorar que los trámites sean fijos, sinó, lanza la excepción
@@ -43,6 +43,7 @@ public class TurnoController {
                 break;
             case "ENTREGA_DOCUMENTACION":
                 tipoTurnoTramite = Turno.Tramite.ENTREGA_DOCUMENTACION;
+                break;
             case "PRESENTAR_DECLARACION":
                 tipoTurnoTramite = Turno.Tramite.PRESENTAR_DECLARACION;
                 break;
@@ -91,7 +92,7 @@ public class TurnoController {
 
         //si no está vacío, creo el objeto para usar en el filtrado de la lista de turnos, sinó, mando un mensaje
         if (!fechaFiltroInicial.isEmpty()) {
-            fechaFiltrarInicial = FormatearFecha.fechaAnioMesDiaHoraMinuto(fechaFiltroInicial);
+            fechaFiltrarInicial = FormatearFecha.pasarStringAFecha(fechaFiltroInicial);
         } else {
             throw new TurnoInvalidException("La Fecha inicial no puede ser nula");
         }
@@ -102,7 +103,7 @@ public class TurnoController {
          */
         LocalDateTime fechaFiltrarFinal = null;
         if (!fechaFiltroFinal.isEmpty()) {
-            fechaFiltrarFinal = FormatearFecha.fechaAnioMesDiaHoraMinuto(fechaFiltroFinal);
+            fechaFiltrarFinal = FormatearFecha.pasarStringAFecha(fechaFiltroFinal);
         }
 
 

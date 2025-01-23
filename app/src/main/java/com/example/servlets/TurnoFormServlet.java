@@ -20,10 +20,10 @@ import java.util.List;
 public class TurnoFormServlet extends HttpServlet {
 
     //instancio el controlador para que se puedan usar sus métodos e interactuar con la BD de ciudadano
-    private TurnoController turnoController = new TurnoController();
+    private final TurnoController turnoController = new TurnoController();
 
     //voy a instanciar el controlador de ciudadanos para enviar la lista de ciudadano que necesito para el formulario
-    private CiudadanoController ciudadanoController = new CiudadanoController();
+    private final CiudadanoController ciudadanoController = new CiudadanoController();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -58,7 +58,7 @@ public class TurnoFormServlet extends HttpServlet {
         //2º idCiudadano
         //si el número no es un long, lanzo una excepción del sistema
         //esta excepción la valido directamente aquí ya que al pasar el dato a Long, me obliga a hacerlo aquí
-        Long idCiudadano = 0L;
+        long idCiudadano = 0L;
         try {
             idCiudadano = Long.parseLong(req.getParameter("idCiudadano"));
         } catch (NumberFormatException e) {

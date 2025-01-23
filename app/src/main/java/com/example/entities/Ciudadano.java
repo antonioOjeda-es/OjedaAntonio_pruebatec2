@@ -28,7 +28,7 @@ public class Ciudadano {
 
     //constructores
 
-    public Ciudadano(){};
+    public Ciudadano(){}
 
     public Ciudadano(Long id, String nombre, String apellido, String direccion, Set<Turno> turnos) {
         this.id = id;

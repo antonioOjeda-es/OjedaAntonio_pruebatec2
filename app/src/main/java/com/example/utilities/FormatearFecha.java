@@ -7,7 +7,7 @@ import java.time.format.DateTimeParseException;
 public class FormatearFecha {
 
     //para introducir la fecha en la base de datos, los segundos e inferiores se guardarán en 0 de forma predeterminada
-    public static LocalDateTime fechaAnioMesDiaHoraMinuto(String fecha) {
+    public static LocalDateTime pasarStringAFecha(String fecha) {
 
         /*paso el string a LocalDateTime utilizando el String y DateTimeFormatter
         para dar formato a la fecha a introducir */
@@ -36,11 +36,8 @@ public class FormatearFecha {
     //para pasar la fecha a String para que se vean de forma legible en los jps
     public static String pasarFechaAString(String fechaAString) {
 
-        //formateador para mostrar en String
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-
         //uso el método para dar formato a la fecha
-        LocalDateTime turnoFechaFormateado = fechaAnioMesDiaHoraMinuto(fechaAString);
+        LocalDateTime turnoFechaFormateado = pasarStringAFecha(fechaAString);
 
         //hago formato al día para que tenga un 0 delante cuando el número es menor a 10
         return (turnoFechaFormateado.getDayOfMonth() <= 9 ? "0"
