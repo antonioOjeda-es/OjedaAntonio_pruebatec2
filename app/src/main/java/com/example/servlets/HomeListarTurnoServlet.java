@@ -89,6 +89,11 @@ public class HomeListarTurnoServlet extends HttpServlet {
                 + ":";
 
         //mando la variable para mostrar en la página jsp
+        //los parámetros de búsqueda
+        req.setAttribute("fechaTurnoFiltrarInicial", fechaTurnoFiltrarInicial);
+        req.setAttribute("fechaTurnoFiltrarFinal", fechaTurnoFiltrarFinal);
+        req.setAttribute("estadoTurnoFiltrar", estadoTurnoFiltrar);
+        //la lista y un mensaje informativo
         req.setAttribute("listaTurnos", listaTurnos);
         req.setAttribute("mensaje", mensaje);
         req.getRequestDispatcher("listarCiudadanos.jsp").forward(req, resp);

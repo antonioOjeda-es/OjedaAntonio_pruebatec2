@@ -12,7 +12,6 @@
                 <!-- incluyo el heder de partials -->
                 <%@ include file="partials/header.jsp" %>
 
-
                     <div class="container mt-4">
                         <div class="row justify-content-center">
                             <div class="col-md-12">
@@ -27,33 +26,42 @@
                                                 <label for="fechaTurnoFiltrarInicial" class="form-label">Desde</label>
                                                 <input type="datetime-local" class="form-control"
                                                     id="fechaTurnoFiltrarInicial" name="fechaTurnoFiltrarInicial"
-                                                    onchange="actualizarFechaMinima()">
+                                                    value="<%= request.getAttribute(" fechaTurnoFiltrarInicial") !=null
+                                                    ? request.getAttribute("fechaTurnoFiltrarInicial") : "" %>"
+                                                onchange="actualizarFechaMinima()">
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="fechaTurnoFiltrarFinal" class="form-label">Hasta</label>
                                                 <input type="datetime-local" class="form-control"
                                                     id="fechaTurnoFiltrarFinal" name="fechaTurnoFiltrarFinal"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Sin filtro de fecha">
+                                                    value="<%= request.getAttribute(" fechaTurnoFiltrarFinal") !=null ?
+                                                    request.getAttribute("fechaTurnoFiltrarFinal") : "" %>"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                title="Sin filtro de fecha">
                                                 <div class="form-text text-muted">* No
                                                     seleccionar si no necesita fecha final</div>
                                                 <div class="form-text text-muted">(Se mostrará hasta la fecha el turno
-                                                    mas
-                                                    reciente)</div>
+                                                    más reciente)</div>
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="estadoTurnoFiltrar" class="form-label">Estado</label>
                                                 <select class="form-select" id="estadoTurnoFiltrar"
                                                     name="estadoTurnoFiltrar">
-                                                    <option value="SIN_OPCION">Sin filtros</option>
-                                                    <option value="EN_ESPERA">En espera</option>
-                                                    <option value="YA_ATENDIDO">Ya atendido</option>
+                                                    <option value="SIN_OPCION" <%="SIN_OPCION"
+                                                        .equals(request.getAttribute("estadoTurnoFiltrar")) ? "selected"
+                                                        : "" %>>Sin filtros</option>
+                                                    <option value="EN_ESPERA" <%="EN_ESPERA"
+                                                        .equals(request.getAttribute("estadoTurnoFiltrar")) ? "selected"
+                                                        : "" %>>En espera</option>
+                                                    <option value="YA_ATENDIDO" <%="YA_ATENDIDO"
+                                                        .equals(request.getAttribute("estadoTurnoFiltrar")) ? "selected"
+                                                        : "" %>>Ya atendido</option>
                                                 </select>
                                             </div>
                                             <div class="col-12 text-end mt-3">
                                                 <button type="submit" class="btn btn-primary">Filtrar</button>
-                                                <a href="TurnoController?action=listar"
-                                                    class="btn btn-secondary">Limpiar filtros</a>
+                                                <a href="ciudadanos?action=listar" class="btn btn-secondary">Limpiar
+                                                    filtros</a>
                                             </div>
                                         </form>
                                     </div>
